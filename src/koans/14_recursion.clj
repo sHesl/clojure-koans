@@ -1,24 +1,30 @@
 (ns koans.14-recursion
   (:require [koan-engine.core :refer :all]))
-
+ 
 (defn is-even? [n]
-  (if (= n 0)
-    __
-    (___ (is-even? (dec n)))))
-
-(defn is-even-bigint? [n]
-  (loop [n   n
-         acc true]
-    (if (= n 0)
-      __
-      (recur (dec n) (not acc)))))
+  (if (or (= (mod n 2) 0) (= n 0))
+    true
+    false))
 
 (defn recursive-reverse [coll]
-  __)
+  (loop [coll coll
+          acc ()]
+    (if (seq coll)
+      (recur (rest coll) (conj acc (first coll)))
+      acc)))
 
 (defn factorial [n]
-  __)
+  (let [target (range 1 (inc n))]
+    (reduce *' target)))
 
+(defn factorial-x 
+  ([n]
+    (let [n-dec (dec n)]
+      (factorial-x (*' n n-dec) n-dec)))
+  ([accum n]
+    (let [n-dec (dec n)]
+      (factorial-x (* accum n) n-dec))))
+ 
 (meditations
   "Recursion ends with a base case"
   (= true (is-even? 0))
@@ -27,7 +33,7 @@
   (= false (is-even? 1))
 
   "Having too many stack frames requires explicit tail calls with recur"
-  (= false (is-even-bigint? 100003N))
+  (= false (is-even? 100003N))
 
   "Reversing directions is easy when you have not gone far"
   (= '(1) (recursive-reverse [1]))
