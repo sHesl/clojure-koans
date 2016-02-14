@@ -23,7 +23,7 @@
       (factorial-x (*' n n-dec) n-dec)))
   ([accum n]
     (let [n-dec (dec n)]
-      (factorial-x (* accum n) n-dec))))
+      (factorial-x (*' accum n) n-dec))))
  
 (meditations
   "Recursion ends with a base case"
